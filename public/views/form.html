@@ -1,18 +1,9 @@
 <div class="container">
 
-	
-
     <div class="col-xs-12 col-sm-2 col-md-16 sidenav">
       <p><a href="#create"><i class="fa fa-plus"></i> Create </a></p>
       <p><a href="#" ng-click="deleteAll()">Delete All</a></p>
     </div>
-
-
-
-<!-- <div class="alert alert-success" close="closeAlert($index)">
-  <strong>Success!</strong> Indicates a successful or positive action.
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-</div> -->
 
 <div class="col-xs-12 col-sm-12 col-md-9 text-left">
     <ol class="breadcrumb">
@@ -34,11 +25,16 @@
 
     <div class="form-group">
       <label>Birthday</label>
-      <input name="birthday" ng-model="friend.birthday" type="date" data-date="12-02-2012" data-date-format="dd-mm-yyyy" class="form-control"placeholder="Enter phone">
+      <input name="birthday" ng-model="friend.birthday" type="date" value="2012-12-12" class="form-control"placeholder="Enter phone">
+    </div>
+
+    <div class="form-group">
+      <label>Address</label>
+      <input name="address" ng-model="friend.address" type="text" class="form-control"placeholder="Enter Address">
     </div>
 
 	<div class="form-group" ng-class="{ 'has-error' : friendForm.email.$invalid && !friendForm.email.$pristine }">
-	    <label >Email address</label>
+	    <label >Email</label>
 	    <input name="email" ng-model="friend.email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" required>
 	    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
 	    <p ng-show="friendForm.email.$invalid && !friendForm.email.$pristine" class="help-block">Enter a valid email.</p>
@@ -48,8 +44,6 @@
 	    <label>Phone</label>
 	    <input name="phone" ng-model="friend.phone" type="tel" class="form-control"placeholder="Enter phone">
   	</div>
-
-
 
   	<button type="submit" class="btn btn-primary" ng-disabled="friendForm.$invalid" ng-click="save()">Save</button>
 </form>

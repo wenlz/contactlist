@@ -105,7 +105,9 @@ app.put('/friend/:id', function(req, res){
 		}
 		//console.log(req.body);
 		friend.name = req.body.name;
+		friend.birthday = req.body.birthday;
 		friend.email = req.body.email;
+		friend.address = req.body.address;
 		friend.updated_at = new Date();
 		
 		 // save the bear
@@ -116,16 +118,6 @@ app.put('/friend/:id', function(req, res){
                 res.json({ message: 'success' });
             });
 	})
-/*
-	db.Friend.findAndModify({
-    query: {_id: mongoose.ObjectId(id)},
-    update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
-    new: true}, function (err, doc) {
-      res.json(doc);
-    }
-  );*/
-
-
 });
 
 
@@ -165,9 +157,12 @@ app.post('/', function(req, res){
 
 	var newFriend = new db.Friend();
 	console.log(newFriend);
+	//newFriend = body;
 	newFriend.name = body.name;
+	newFriend.birthday = body.birthday;
 	newFriend.email = body.email;
-	newFriend.address = body.email;
+	newFriend.address = body.address;
+	newFriend.phone = body.phone;
 
 	newFriend.save(function (err, savedFriend){
 		if(err){
@@ -181,6 +176,24 @@ app.post('/', function(req, res){
 			friend: savedFriend
 		})
 	})
+});
+
+app.get('/detail/:id', function(req, res){
+	console.log('1 friend detail');
+	db.Friend.findById(req.params.id, function (err, friend){
+		if(err){
+			return res.json({
+				err: err
+			})
+		}
+
+		console.log(friend);
+
+		return res.json({
+			success: true,
+			friend 	: friend
+		})
+	})	
 });
 
 app.get('/login', function(req, res){

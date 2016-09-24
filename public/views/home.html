@@ -34,7 +34,7 @@
 
         <tbody>
             <tr ng-repeat="friend in friends | filter:search">
-                  <td><a href="#detail">{{friend.name}}</a></td>
+                  <td><a ng-click="detail(friend._id)">{{friend.name}}</a></td>
                   <td>{{friend.email}}</td>
                   <td>  
                     <button class="btn btn-warning" ng-click="edit(friend._id)">

@@ -162,6 +162,12 @@ myApp.config(function($stateProvider, $urlRouterProvider){
               	templateUrl: 'views/form.html' ,
               	controller: 'createCtrl'
 	        })
+	        .state('/detail', {
+	            // we'll get to this in a bit
+	          	url: '/detail/:id',
+              	templateUrl: 'views/detail.html' ,
+              	controller: 'detailCtrl'
+	        })
 	        .state('/edit', {
 	            // we'll get to this in a bit
 	          	url: '/edit/:id',
@@ -178,7 +184,7 @@ myApp.controller('createCtrl', function($scope, $http) {
     	if ($scope.friendForm.$valid) { 
 	  		$http.post('/', $scope.friend).success(function(response) {
 		    	$scope.alerts = [{ 
-    				type: 'success', msg: 'Saved add more <a href="#create">add more</a>' 
+    				type: 'success', msg: 'Saved add more' 
     			}];
 		  	});
 	  	}else{
@@ -192,6 +198,15 @@ myApp.controller('createCtrl', function($scope, $http) {
     	$scope.alerts.splice(index, 1);
   	};
 	
+});
+
+myApp.controller('detailCtrl', function($http, $scope, $state) {
+  	console.log('detail controller');
+
+  	$http.get('/friend/' + $state.params.id).success(function(response){
+			console.log(response);
+			$scope.friend = response.friend;
+	});
 });
 
 myApp.controller('editCtrl', function($scope, $http, $state) {
@@ -258,5 +273,9 @@ myApp.controller('homeCtrl', function($http, $scope, $state) {
 
 	$scope.edit = function(id) {  
 		$state.go('/edit', {id: id})
+	};	
+
+	$scope.detail = function(id) {  
+		$state.go('/detail', {id: id})
 	};	
 });

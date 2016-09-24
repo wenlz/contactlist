@@ -32,18 +32,33 @@ var companySchema = new Schema({
 })
 
 var friendSchema = new Schema({
-	name : String,
+	name 	: String,
+	birthday: {
+		type : Date,
+		format : "%Y-%m-%d"
+	},
 	address : String,
 	email	: String,
-	created_at: {type: Date, default: Date.now},
-    updated_at: {type: Date, default: Date.now}
+	phone	: Number,
+	created_at: {
+		type: Date, default: Date.now
+	},
+    updated_at: {
+    	type: Date, default: Date.now
+    }
 })
 
 var userSchema = new Schema({
 	email : String,
 	password : String,
-	 created_at: {type: Date, default: Date.now},
-    updated_at: {type: Date, default: Date.now}
+	created_at: {
+		type: Date, 
+		default: Date.now
+	},
+    updated_at: {
+    	type: Date, 
+    	default: Date.now
+    }
 })
 
 
