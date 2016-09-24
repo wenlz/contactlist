@@ -1,0 +1,60 @@
+<div class="container">
+
+	
+
+    <div class="col-xs-12 col-sm-2 col-md-16 sidenav">
+      <p><a href="#create"><i class="fa fa-plus"></i> Create </a></p>
+      <p><a href="#" ng-click="deleteAll()">Delete All</a></p>
+    </div>
+
+
+
+<!-- <div class="alert alert-success" close="closeAlert($index)">
+  <strong>Success!</strong> Indicates a successful or positive action.
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+</div> -->
+
+<div class="col-xs-12 col-sm-12 col-md-9 text-left">
+    <ol class="breadcrumb">
+	  <li><a href="#home">Home</a></li>
+	  <li class="active">{{position}}</li>
+	</ol>
+
+<p>{{message}}</p>
+<form name="friendForm" ng-submit="submitForm(friendForm.$valid)" novalidate>
+	<div uib-alert ng-repeat="alert in alerts" ng-class="'alert alert-' + (alert.type || 'warning')" close="closeAlert($index)">	{{alert.msg}}
+		<a href="#create" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	</div>
+
+	<div class="form-group" ng-class="{ 'has-error' : friendForm.fullName.$invalid && !friendForm.name.$pristine }">
+	    <label for="InputNameFull">Full Name</label>
+	    <input name="name" ng-model="friend.name" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter Full Name" required>
+	    <p ng-show="friendForm.fullName.$invalid && !friendForm.fullName.$pristine" class="help-block">You name is required.</p>
+  	</div>
+
+    <div class="form-group">
+      <label>Birthday</label>
+      <input name="birthday" ng-model="friend.birthday" type="date" data-date="12-02-2012" data-date-format="dd-mm-yyyy" class="form-control"placeholder="Enter phone">
+    </div>
+
+	<div class="form-group" ng-class="{ 'has-error' : friendForm.email.$invalid && !friendForm.email.$pristine }">
+	    <label >Email address</label>
+	    <input name="email" ng-model="friend.email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" required>
+	    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+	    <p ng-show="friendForm.email.$invalid && !friendForm.email.$pristine" class="help-block">Enter a valid email.</p>
+  	</div>
+
+  	<div class="form-group">
+	    <label>Phone</label>
+	    <input name="phone" ng-model="friend.phone" type="tel" class="form-control"placeholder="Enter phone">
+  	</div>
+
+
+
+  	<button type="submit" class="btn btn-primary" ng-disabled="friendForm.$invalid" ng-click="save()">Save</button>
+</form>
+</div>
+
+</div>
+
+</div>
