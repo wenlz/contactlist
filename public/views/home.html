@@ -1,6 +1,6 @@
 <!-- <div ng-controller="homeCtrl" ng-app="sortApp" class="row content text-center"> -->
 <div ng-controller="homeCtrl" ng-app="sortApp" class="container text-center">
-    
+
     <div class="col-xs-12 col-sm-2 col-md-16 sidenav">
       <p><a href="#create"><i class="fa fa-plus"></i> Create </a></p>
       <p><a href="#" ng-click="deleteAll()">Delete All</a></p>
@@ -18,15 +18,15 @@
             <div class="form-group col-xs-16">
               <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                <input type="text" class="form-control" placeholder="Search anything" ng-model="searchFish">
-              </div>      
+                <input type="text" class="form-control" placeholder="Search anything" ng-model="search">
+              </div>
             </div>
         </form>
 
     <table class="table col-xs-16">
       <thead>
         <tr>
-          <th  class="text-center">Name</th>         
+          <th  class="text-center">Name</th>
           <th  class="text-center">Email</th>
           <th class="text-center">Action</th>
         </tr>
@@ -36,7 +36,7 @@
             <tr ng-repeat="friend in friends | filter:search">
                   <td><a ng-click="detail(friend._id)">{{friend.name}}</a></td>
                   <td>{{friend.email}}</td>
-                  <td>  
+                  <td>
                     <button class="btn btn-warning" ng-click="edit(friend._id)">
                         <i class="fa fa-pencil"></i>
                     </button>
@@ -47,6 +47,6 @@
             </tr>
 
         </tbody>
-    </table>        
+    </table>
         </div>
 </div>

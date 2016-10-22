@@ -12,16 +12,15 @@
 <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
 
-<script src="Controller/controller.js"></script> 
+<script src="Controller/controller.js"></script>
 
 
 <!-- <script type="text/javascript" src="/js/angular.min.js"></script> -->
 <script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script> 
+<script src="/js/bootstrap.min.js"></script>
 
   <title>Contact List App</title>
 </head>
-<!-- <body ng-controller="routerApp"> -->
 <!-- <body ng-controller="AppCtrl"> -->
 <body ng-app="myApp">
     <nav class="navbar navbar-inverse" role="navigation">
@@ -34,29 +33,32 @@
             </button>
             <a class="navbar-brand" href="#">LOGO</a>
             </div>
-                
-            <div class="collapse navbar-collapse" id="myNavbar">
-    	       <ul class="nav navbar-nav">
-    		  <li role="presentation" class="active"><a href="#home">Home</a></li>
-    		  <li role="presentation"><a href="#contact">Contact</a></li>
-            </div>
 
-    		</ul>
+            <div class="collapse navbar-collapse" id="myNavbar">
+    	         <ul class="nav navbar-nav">
+        		       <li role="presentation" class="active"><a href="#home">Home</a></li>
+        		       <li role="presentation"><a href="#contact">Contact</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li role="presentation" class="right"><a href="#login">Log In</a></li>
+                <li role="presentation" class="right"><a href="#">Log Out</a></li>
+             </ul>
+            </div>
     	   </div>
         </div>
 
 	</nav>
 
-<div class="container">	
+<div class="container">
         <div ui-view >
             <!-- Content -->
         </div>
 
-            
+
 		<!-- Footer -->
 		<footer class="text-center">
             <p>
-                Copyright &copy; Your Website 2016
+                Copyright &copy; Wenly Pranata 2016
             </p>
     	</footer>
     	<!-- End Footer -->

@@ -1,0 +1,25 @@
+<!-- <div ng-controller="homeCtrl" ng-app="sortApp" class="row content text-center"> -->
+<div ng-controller="loginCtrl" ng-app="sortApp" class="container text-center">
+  <p>{{message}}</p>
+  <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+  	<div uib-alert ng-repeat="alert in alerts" ng-class="'alert alert-' + (alert.type || 'warning')" close="closeAlert($index)">	{{alert.msg}}
+  		<a href="#create" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  	</div>
+
+  	<div class="form-group" ng-class="{ 'has-error' : friendForm.fullName.$invalid && !friendForm.name.$pristine }">
+  	    <label for="InputEmail">Email</label>
+  	    <input name="name" ng-model="user.username" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter Your Email" required>
+  	    <p ng-show="friendForm.email.$invalid && !friendForm.email.$pristine" class="help-block">You name is required.</p>
+    	</div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input name="password" ng-model="user.password" type="password" class="form-control" placeholder="Enter Your Password" required>
+        <p ng-show="friendForm.email.$invalid && !friendForm.email.$pristine" class="help-block">You name is required.</p>
+      </div>
+
+    	<button type="submit" class="btn btn-primary" ng-click="login()">Login</button>
+      <button type="submit" class="btn btn-primary" ng-click="signup()">Sign Up</button>
+  </form>
+
+</div>

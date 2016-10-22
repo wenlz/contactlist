@@ -1,34 +1,55 @@
 var express 	= require('express');
+var session 	= require('express-session');
 var app			= express();
+var cookieParser = require('cookie-parser');
 var bodyParser	= require('body-parser');
 var mongoose	= require('mongoose');
 var morgan      = require('morgan');
 var bcrypt 		= require('bcrypt-nodejs');
+var models			= require('./app/model');
+var passport = require('passport');
+var emailValidator = require("email-validator");
 
 // var path = __dirname + '/views/';
 var path = require('path')
 
 app.use(morgan('dev'));
 // Model
-var db			= require('./app/model/nerd')
+var db			= require('./app/model')
 
 // set our port
-var port = process.env.PORT || 3000; 
+var port = process.env.PORT || 3000;
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(path.join(__dirname + '/public')))
 
-app.use('views', express.static(__dirname + 'views')); 
+app.use('views', express.static(__dirname + 'views'));
 app.use('/js', express.static(__dirname + '/bower_components/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/bower_components/bootstrap/dist/css')); // redirect CSS bootstrap
-
 app.use('/js', express.static(__dirname + '/bower_components/angular')); // redirect CSS bootstrap
 
+var config = require('./config/config-local');
 
-// parse application/json 
+//require passport
+require('./app/passport.js')(passport,emailValidator,config,models);
+
+// parse application/json
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use(session({
+	secret: 'secret',
+	saveUninitialized: true,
+	resave: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+
+//using api
+app.use('/api', require('./routes/apiRoute')(models, express, passport, config));
 
 app.get('/user', function(req, res){
 	console.log('I received a GET request');
@@ -55,11 +76,12 @@ app.get('/user', function(req, res){
 			success: true,
 			friends: friends
 		})
-	})	
+	})
 });
 
 app.get('/friends', function(req, res){
 	console.log('I received a GET request');
+	//db.Friend.find({ _id : {$lt : req.body} }).exec(function (err, friends){
 	db.Friend.find().exec(function (err, friends){
 		if(err){
 			return res.json({
@@ -73,7 +95,7 @@ app.get('/friends', function(req, res){
 			success: true,
 			friends: friends
 		})
-	})	
+	})
 });
 
 app.get('/friend/:id', function(req, res){
@@ -91,7 +113,7 @@ app.get('/friend/:id', function(req, res){
 			success: true,
 			friend 	: friend
 		})
-	})	
+	})
 });
 
 app.put('/friend/:id', function(req, res){
@@ -109,7 +131,7 @@ app.put('/friend/:id', function(req, res){
 		friend.email = req.body.email;
 		friend.address = req.body.address;
 		friend.updated_at = new Date();
-		
+
 		 // save the bear
         friend.save(function(err) {
                 if (err)
@@ -126,7 +148,7 @@ app.delete('/friend/:id', function (req, res) {
   console.log(id);
   db.Friend.findById(id).remove().exec(function (err, doc) {
   	if(err){
-		return 
+		return
 			res.json({
 				err: err
 			})
@@ -140,7 +162,7 @@ app.delete('/friend/:id', function (req, res) {
 app.delete('/friend', function (req, res) {
   db.Friend.remove().exec(function (err, doc) {
   	if(err){
-		return 
+		return
 			res.json({
 				err: err
 			})
@@ -193,7 +215,7 @@ app.get('/detail/:id', function(req, res){
 			success: true,
 			friend 	: friend
 		})
-	})	
+	})
 });
 
 app.get('/login', function(req, res){
@@ -269,14 +291,17 @@ app.put('/company/:companyId', function(req, res){
 app.post('/signup', function(req, res){
 
 	var body = req.body;
-
+	//console.log(body);
 
 		bcrypt.hash(body.password, bcrypt.genSaltSync(8), null, function(err, hash) {
 	    // Store hash in your password DB.
 	    var user = new db.User();
+			// console.log(body);
 
+	    user.fullname = body.fullname;
 	    user.email = body.email;
 	    user.password = hash;
+			console.log(user);
 
 	    user.save(function(err, savedUser){
 	    	if(err)
@@ -286,25 +311,25 @@ app.post('/signup', function(req, res){
 	    		})
 	    	}
 	    	return res.json({
-	    		success : true,
+	    		success : true
 	    	})
 	    })
 
 		});
-	
+
 });
 
 app.post('/login', function(req, res){
 	var body = req.body;
-	
+
 	db.User.findOne({ 'email': body.email }).exec(function(err, user){
 	//db.User.findOne({ 'email': body.email }, (function(err, user){
-	if(err) 
+	if(err)
 		return console.error(err)
 
 	// Load hash from your password DB.
 	bcrypt.compare(body.password, user.password, function(err, res2) {
-    
+
     if(res2 == true){
     	return res.json({
     		success : res2
@@ -321,7 +346,6 @@ app.post('/login', function(req, res){
 	})
 });
 
-
 app.get('*', function(req, res){
 	res.sendFile(__dirname+'/public/views/index.html')
 })
@@ -331,5 +355,5 @@ app.get('*', function(req, res){
 // start app ===============================================
 // startup our app at http://localhost:3000
 app.listen(port, function(){
-	console.log("Server running on port 3000");	
+	console.log("Server running on port 3000");
 });

@@ -75,7 +75,7 @@
 			// 	title: 'gobs',
 			// 	url: '/gobs',
 			// 	templateUrl: 'gobs.html'
-			// })	
+			// })
 	}
 })();
 */
@@ -88,23 +88,23 @@
 
 (function (){*/
 	// routerApp.config(function($stateProvider, $urlRouterProvider) {
-    
+
 	//     $urlRouterProvider.otherwise('/home');
-	    
+
 	//     $stateProvider
-	        
+
 	//         // HOME STATES AND NESTED VIEWS ========================================
 	//         .state('home', {
 	//             url: '/home',
 	//             templateUrl: 'partial-home.html'
 	//         })
-	        
+
 	//         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
 	//         .state('about', {
-	//             // we'll get to this in a bit       
+	//             // we'll get to this in a bit
 	//         });
-	        
-	// });	
+
+	// });
 
 /*var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
@@ -114,13 +114,13 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 		.config(routerApp);
 
 	routerApp.$inject = ['$stateProvider', '$urlRouterProvider']
-	
+
 	function routerApp($stateProvider, $urlRouterProvider) {
-    
+
 	    $urlRouterProvider.otherwise('/home');
-	    
+
 	    $stateProvider
-	        
+
 	        // HOME STATES AND NESTED VIEWS ========================================
 	        .state('home', {
 	            url: '/home',
@@ -128,13 +128,13 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
               	templateUrl: '/gobs.html',
               	title: 'HAD	'
 	        })
-	        
+
 	        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
 	        .state('about', {
-	            // we'll get to this in a bit       
+	            // we'll get to this in a bit
 	        });
-	        
-	};	
+
+	};
 })();
 */
 
@@ -154,6 +154,16 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 	            url: '/contact',
               	templateUrl: 'views/contact.html',
               	// controller: 'homeCtrl'
+	        })
+					.state('/login', {
+	            url: '/login',
+              	templateUrl: 'views/login.html',
+              	controller: 'loginCtrl'
+	        })
+					.state('/signup', {
+	            url: '/signup',
+              	templateUrl: 'views/signup.html',
+              	controller: 'signupCtrl'
 	        })
 	        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
 	        .state('/create', {
@@ -179,17 +189,21 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 myApp.controller('createCtrl', function($scope, $http) {
 
   	$scope.position = 'Create';
+
+  	$scope.friend = {};
+  	$scope.friend.birthday ='2012-10-10';
+  	console.log($scope)
 	$scope.save = function() {
 	  	// check to make sure the form is completely valid
-    	if ($scope.friendForm.$valid) { 
+    	if ($scope.friendForm.$valid) {
 	  		$http.post('/', $scope.friend).success(function(response) {
-		    	$scope.alerts = [{ 
-    				type: 'success', msg: 'Saved add more' 
+		    	$scope.alerts = [{
+    				type: 'success', msg: 'Saved add more'
     			}];
 		  	});
 	  	}else{
-	  		$scope.alerts = [{ 
-	  			type: 'danger', msg: 'Error' 
+	  		$scope.alerts = [{
+	  			type: 'danger', msg: 'Error'
 	  		}];
 	  	}
 	};
@@ -197,7 +211,7 @@ myApp.controller('createCtrl', function($scope, $http) {
 	$scope.closeAlert = function(index) {
     	$scope.alerts.splice(index, 1);
   	};
-	
+
 });
 
 myApp.controller('detailCtrl', function($http, $scope, $state) {
@@ -220,13 +234,13 @@ myApp.controller('editCtrl', function($scope, $http, $state) {
 	$scope.save = function(){
 		if ($scope.friendForm.$valid) {
 			$http.put('/friend/' + $state.params.id, $scope.friend).success(function(response){
-				$scope.alerts = [{ 
-	    			type: 'success', msg: 'Updated' 
+				$scope.alerts = [{
+	    			type: 'success', msg: 'Updated'
 	    		}];
 			});
 		}else{
-			$scope.alerts = [{ 
-				type: 'danger', msg: 'Error' 
+			$scope.alerts = [{
+				type: 'danger', msg: 'Error'
 			}];
 		}
 	}
@@ -237,7 +251,7 @@ myApp.controller('editCtrl', function($scope, $http, $state) {
 });
 
 myApp.controller('homeCtrl', function($http, $scope, $state) {
-	
+
   	console.log('home controller');
   	$scope.search   = '';     // set the default search
 
@@ -251,31 +265,66 @@ myApp.controller('homeCtrl', function($http, $scope, $state) {
 	};
 	$scope.refresh();
 
+	$scope.ok = function (){
+		//$scope.close({$value: $scope.})
+	}
+
   	$scope.remove = function(id) {
+
   		console.log(id);
-  		$http.delete('/friend/' + id).success(function(response) {
-    		$scope.refresh();
-    		$scope.alerts = [{ 
-    			type: 'success', msg: 'Deleted' 
-    		}];
-  		});
+  		// $http.delete('/friend/' + id).success(function(response) {
+    	// 	$scope.refresh();
+    	// 	$scope.alerts = [{
+    	// 		type: 'success', msg: 'Deleted'
+    	// 	}];
+  		// });
 	};
 
 	$scope.deleteAll = function() {
   		console.log("delete All controller");
   		$http.delete('/friend/').success(function(response) {
     		$scope.refresh();
-    		$scope.alerts = [{ 
-    			type: 'success', msg: 'Delete All' 
+    		$scope.alerts = [{
+    			type: 'success', msg: 'Delete All'
     		}];
   		});
 	};
 
-	$scope.edit = function(id) {  
+	$scope.edit = function(id) {
 		$state.go('/edit', {id: id})
-	};	
+	};
 
-	$scope.detail = function(id) {  
+	$scope.detail = function(id) {
 		$state.go('/detail', {id: id})
-	};	
+	};
+});
+
+
+myApp.controller('loginCtrl', function($http, $scope, $state) {
+
+	$scope.signup = function(id) {
+		$state.go('/signup');
+	};
+
+});
+
+myApp.controller('signupCtrl', function($http, $scope, $state) {
+	$scope.signup = function(){
+		console.log($scope.userForm);
+		if ($scope.userForm.$valid) {
+			$http.post('/signup', $scope.user).success(function(response){
+				$scope.alerts = [{
+	    			type: 'success', msg: 'Success'
+	    		}];
+			});
+		}else{
+			$scope.alerts = [{
+				type: 'danger', msg: 'Error'
+			}];
+		}
+	}
+
+	$scope.closeAlert = function(index) {
+    	$scope.alerts.splice(index, 1);
+  	};
 });
